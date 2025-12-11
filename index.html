@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#006C45">
+    <meta name="description" content="مساعد أبشر الذكي Pro - تجربة مستخدم عصرية للخدمات الحكومية">
+
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23006C45'/%3E%3Cpath fill='white' d='M16 6L6 12v6c0 5.5 4.5 10 10 10s10-4.5 10-10v-6l-10-6z'/%3E%3C/svg%3E">
+
+    <title>مساعد أبشر الذكي - Innovara</title>
+
+    <!-- Fonts: Almarai for Arabic/Modern UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons: RemixIcon -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+
+    <style>
+        /* --- Design System --- */
+        :root {
+            /* Palette - Premium Green & Gold */
+            --primary: #006C45;
+            --primary-dark: #004D31;
+            --primary-light: #E0F2EB;
+            --accent: #C69C6D;
+            /* Premium Gold */
+            --accent-hover: #b08d62;
+
+            /* Neutrals */
+            --bg-body: #F3F4F6;
+            --bg-surface: #FFFFFF;
+            --bg-input: #F9FAFB;
+
+            --text-main: #1F2937;
+            --text-secondary: #6B7280;
+            --text-light: #9CA3AF;
+            --text-white: #FFFFFF;
+
+            /* Feedback */
+            --success: #10B981;
+            --success-bg: #D1FAE5;
+            --warning: #F59E0B;
+            --warning-bg: #FEF3C7;
+            --error: #EF4444;
+            --error-bg: #FEE2E2;
+
+            /* Spacing & Layout */
+            --header-height: 70px;
+            --sidebar-width: 320px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 30px;
+
+            /* Shadows */
+            --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+            --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Reset & Base --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Almarai', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        button {
+            font-family: inherit;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input,
+        textarea {
+            font-family: inherit;
+            border: none;
+            outline: none;
+        }
+
+        /* --- Layout Grid --- */
+        .app-layout {
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr;
+            grid-template-rows: var(--header-height) 1fr;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        /* --- Header --- */
+        .app-header {
+            grid-column: 1 / -1;
+            background: var(--bg-surface);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            box-shadow: var(--shadow-sm);
+            z-index: 50;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Animated Logo Icon */
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 12px rgba(0, 108, 69, 0.2);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .logo-area:hover .logo-icon {
+            transform: rotate(10deg) scale(1.05);
+        }
+
+        .app-title h1 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .app-title span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: block;
+            letter-spacing: 0.5px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .lang-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 600;
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+
+        .lang-btn:hover {
+            background: var(--bg-body);
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            /* Desktop default */
+            font-size: 1.5rem;
+            color: var(--text-main);
+            background: none;
+        }
+
+        /* --- Sidebar (Services) --- */
+        .app-sidebar {
+            background: var(--bg-surface);
+            border-left: 1px solid rgba(0, 0, 0, 0.05);
+            /* LTR/RTL handled by direction logic, here using logical props would be better but keeping simple */
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: transform 0.3s ease;
+            z-index: 40;
+        }
+
+        .services-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-light);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-group {
+            margin-bottom: 1rem;
+        }
+
+        .service-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.9rem;
+            background: var(--bg-body);
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .service-card:hover {
+            background: white;
+            box-shadow: var(--shadow-sm);
+            border-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .service-icon {
+            font-size: 1.2rem;
+            color: var(--primary);
+            background: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-xs);
+        }
+
+        .service-card:hover .service-icon {
+            background: var(--primary);
+            color: white;
+        }
+
+        .service-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* --- Chat Area --- */
+        .app-main {
+            background: var(--bg-body);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-container {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            scroll-behavior: smooth;
+        }
+
+        /* Messages */
+        .msg {
+            display: flex;
+            align-items: flex-end;
+            gap: 1rem;
+            max-width: 80%;
+            animation: slideUp 0.3s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .msg.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .msg.ai {
+            align-self: flex-start;
+        }
+
+        .msg-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .msg.user .msg-avatar {
+            background: var(--accent);
+            color: white;
+        }
+
+        .msg.ai .msg-avatar {
+            background: var(--bg-surface);
+            color: var(--primary);
+            border: 1px solid var(--primary-light);
+        }
+
+        .msg-content {
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-lg);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .msg.user .msg-content {
+            background: var(--primary);
+            color: white;
+            border-bottom-left-radius: 4px;
+            /* RTL aware adjustment needed if directing changes */
+            border-bottom-right-radius: var(--radius-lg);
+        }
+
+        /* RTL spec for rounded corners */
+        html[dir="rtl"] .msg.user .msg-content {
+            border-bottom-left-radius: var(--radius-lg);
+            border-bottom-right-radius: 4px;
+        }
+
+        html[dir="ltr"] .msg.user .msg-content {
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: var(--radius-lg);
+        }
+
+        .msg.ai .msg-content {
+            background: var(--bg-surface);
+            color: var(--text-main);
+            border-bottom-right-radius: 4px;
+        }
+
+        html[dir="rtl"] .msg.ai .msg-content {
+            border-bottom-right-radius: var(--radius-lg);
+            border-bottom-left-radius: 4px;
+        }
+
+        /* Rich Content Cards */
+        .info-card {
+            background: var(--bg-input);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            margin-top: 0.5rem;
+            border-right: 4px solid var(--primary);
+            /* RTL default */
+            font-size: 0.9rem;
+        }
+
+        .card-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .card-row:last-child {
+            border: none;
+        }
+
+        .card-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .card-val {
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            border-radius: 50px;
+            font-weight: 600;
+        }
+
+        /* Input Area */
+        .input-zone {
+            background: var(--bg-surface);
+            padding: 1.5rem;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 50;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            background: var(--bg-input);
+            border-radius: var(--radius-xl);
+            padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+            display: flex;
+            align-items: center;
+            border: 2px solid var(--primary-light);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            /* Added shadow for highlight */
+            transition: all 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+
+        .text-input {
+            flex: 1;
+            background: transparent;
+            font-size: 1rem;
+            padding: 0.5rem;
+            min-height: 24px;
+            max-height: 100px;
+            resize: none;
+            overflow-y: auto;
+        }
+
+        .send-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-md);
+        }
+
+        .send-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .send-btn:disabled {
+            background: var(--text-light);
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Quick Action Buttons within Chat */
+        .quick-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .action-btn {
+            background: white;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-lg);
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            padding: 0.5rem;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--text-light);
+            border-radius: 50%;
+            animation: bounce 1.2s infinite;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 900px) {
+            .app-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .app-sidebar {
+                position: fixed;
+                top: var(--header-height);
+                bottom: 0;
+                right: 0;
+                /* RTL default */
+                width: 280px;
+                transform: translateX(100%);
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+            }
+
+            html[dir="ltr"] .app-sidebar {
+                right: auto;
+                left: 0;
+                transform: translateX(-100%);
+            }
+
+            .app-sidebar.active {
+                transform: translateX(0);
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+
+        /* --- Calendar Styles --- */
+        .calendar-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            width: 100%;
+            max-width: 300px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-top: 0.5rem;
+        }
+
+        .cal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+        }
+
+        .cal-day-name {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            padding-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .cal-date {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-main);
+            width: 32px;
+            height: 32px;
+            margin: auto;
+        }
+
+        .cal-date:hover:not(.empty) {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .cal-date.selected {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .cal-date.empty {
+            cursor: default;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-layout">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                    <i class="ri-menu-4-line"></i>
+                </button>
+                <div class="logo-icon">
+                    <i class="ri-government-fill"></i>
+                </div>
+                <div class="app-title">
+                    <h1>مساعد أبشر الذكي - Innovara</h1>
+                    <span>Absher AI Assistant</span>
+                </div>
+            </div>
+
+            <div class="header-controls">
+                <div class="status-pill">
+                    <div class="status-dot"></div>
+                    <span>متصل</span>
+                </div>
+                <button class="lang-btn" onclick="toggleLanguage()" id="langBtn" title="Change Language">
+                    <i class="ri-global-line"></i> EN
+                </button>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="app-sidebar" id="sidebar">
+            <div class="service-group">
+                <div class="services-title"><i class="ri-pass-valid-line"></i> الجوازات</div>
+                <div class="service-card" onclick="selectService('إصدار/تجديد جواز السفر')">
+                    <div class="service-icon"><i class="ri-passport-line"></i></div>
+                    <div class="service-name">إصدار/تجديد جواز</div>
+                </div>
+                <div class="service-card" onclick="selectService('تأشيرة خروج وعودة (مفردة)')">
+                    <div class="service-icon"><i class="ri-flight-takeoff-line"></i></div>
+                    <div class="service-name">تأشيرة خروج وعودة</div>
+                </div>
+            </div>
+
+            <div class="service-group">
+                <div class="services-title"><i class="ri-calendar-event-line"></i> المواعيد</div>
+                <div class="service-card" onclick="selectService('حجز موعد')">
+                    <div class="service-icon"><i class="ri-calendar-check-line"></i></div>
+                    <div class="service-name">حجز موعد جديد</div>
+                </div>
+            </div>
+
+            <div class="service-group">
+                <div class="services-title"><i class="ri-user-smile-line"></i> الأحوال المدنية</div>
+                <div class="service-card" onclick="selectService('تجديد الهوية الوطنية')">
+                    <div class="service-icon"><i class="ri-account-box-line"></i></div>
+                    <div class="service-name">تجديد الهوية</div>
+                </div>
+                <div class="service-card" onclick="selectService('شهادة الميلاد')">
+                    <div class="service-icon"><i class="ri-parent-line"></i></div>
+                    <div class="service-name">شهادة ميلاد</div>
+                </div>
+                <div class="service-card" onclick="selectService('سجل الأسرة')">
+                    <div class="service-icon"><i class="ri-team-line"></i></div>
+                    <div class="service-name">سجل الأسرة</div>
+                </div>
+            </div>
+
+            <div class="service-group">
+                <div class="services-title"><i class="ri-car-line"></i> المرور</div>
+                <div class="service-card" onclick="selectService('تجديد رخصة القيادة')">
+                    <div class="service-icon"><i class="ri-steering-2-line"></i></div>
+                    <div class="service-name">تجديد الرخصة</div>
+                </div>
+                <div class="service-card" onclick="selectService('استعلام مخالفات')">
+                    <div class="service-icon"><i class="ri-alarm-warning-line"></i></div>
+                    <div class="service-name">مخالفات مرورية</div>
+                </div>
+                <div class="service-card" onclick="selectService('تجديد استمارة المركبة (رخصة السير)')">
+                    <div class="service-icon"><i class="ri-file-list-2-line"></i></div>
+                    <div class="service-name">استمارة المركبة</div>
+                </div>
+            </div>
+
+            <div class="service-group">
+                <div class="services-title"><i class="ri-building-4-line"></i> الإقامة</div>
+                <div class="service-card" onclick="selectService('تجديد الإقامة (عمالة شركات)')">
+                    <div class="service-icon"><i class="ri-briefcase-line"></i></div>
+                    <div class="service-name">تجديد إقامة (شركات)</div>
+                </div>
+                <div class="service-card" onclick="selectService('تجديد الإقامة (عمالة منزلية)')">
+                    <div class="service-icon"><i class="ri-home-heart-line"></i></div>
+                    <div class="service-name">تجديد إقامة (منزلية)</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Chat -->
+        <main class="app-main">
+            <div class="chat-container" id="messagesContainer">
+                <!-- Welcome Message populated by JS -->
+            </div>
+
+            <div class="input-zone">
+                <div class="input-wrapper">
+                    <input type="text" class="text-input" id="userInput" placeholder="كيف يمكنني مساعدتك اليوم؟..."
+                        autocomplete="off">
+                </div>
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                    <i class="ri-send-plane-fill"></i>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Data & Config ---
+        const absherServices = {
+            'تجديد الهوية الوطنية': {
+                fee: 39, days: 'فوري',
+                requirements: ['صورة شخصية', 'بصمة مسجلة', 'عنوان وطني'],
+                questions: ['هل لديك قيود سفر؟', 'هل عنوانك محدث؟']
+            },
+            'إصدار/تجديد جواز السفر': {
+                fee: '300-600 ريال', days: '3-5 أيام',
+                requirements: ['عنوان وطني (واصل)', 'سداد المخالفات'],
+                questions: [
+                    { text: 'هل تملك عنوان وطني؟', options: ['نعم', 'لا'] },
+                    { text: 'المدة المطلوبة (5/10)؟', options: ['5 سنوات', '10 سنوات'] }
+                ]
+            },
+            'تجديد رخصة القيادة': {
+                fee: '40/200 ريال', days: 'فوري',
+                requirements: ['فحص طبي ساري', 'سداد مسبق'],
+                questions: [
+                    { text: 'مدة التجديد؟', options: ['سنتين', '5 سنوات', '10 سنوات'] },
+                    { text: 'هل الفحص الطبي جاهز؟', options: ['نعم', 'لا'] }
+                ]
+            },
+            'استعلام مخالفات': {
+                fee: 'مجاني', days: 'فوري',
+                requirements: ['رقم الهوية', 'رقم اللوحة'],
+                questions: ['عرض المخالفات المسددة أيضاً؟']
+            },
+            'تجديد استمارة المركبة (رخصة السير)': {
+                fee: '100-300 ريال', days: 'فوري',
+                requirements: ['فحص دوري', 'تأمين مركبة'],
+                questions: ['هل الفحص الدوري ساري؟']
+            },
+            'حجز موعد': {
+                fee: 'مجاني', days: 'فوري',
+                requirements: ['حساب أبشر مفعل'],
+                questions: [
+                    { text: 'اختر القطاع المطلوب؟', options: ['جوازات', 'أحوال', 'مرور'] },
+                    { text: 'الرجاء اختيار الموعد المناسب:', type: 'date' }
+                ]
+            },
+            'شهادة الميلاد': { fee: 'مجاني', days: '2-4 أيام', requirements: ['تبليغ المستشفى'], questions: ['اسم المولود؟'] },
+            'سجل الأسرة': { fee: 'مجاني', days: '3-5 أيام', requirements: ['هوية الأب'], questions: ['توصيل بالبريد؟'] },
+            'تأشيرة خروج وعودة (مفردة)': { fee: '200 ريال', days: 'فوري', requirements: ['سريان الجواز', 'وجود المستفيد'], questions: ['المدة بالأيام؟'] },
+            'تجديد الإقامة (عمالة شركات)': { fee: '650 ريال', days: 'فوري', requirements: ['رخصة عمل', 'تأمين طبي'], questions: ['رقم الإقامة؟'] },
+            'تجديد الإقامة (عمالة منزلية)': { fee: '600 ريال', days: 'فوري', requirements: ['سداد المقابل'], questions: ['تجديد لسنة أم سنتين؟'] }
+        };
+
+        const keywords = {
+            'تجديد الهوية الوطنية': ['هوية', 'بطاقة'],
+            'إصدار/تجديد جواز السفر': ['جواز', 'سفر'],
+            'تجديد رخصة القيادة': ['رخصة', 'سواقة', 'قيادة'],
+            'استعلام مخالفات': ['مخالفات', 'ساهر'],
+            'تجديد استمارة المركبة (رخصة السير)': ['استمارة', 'مركبة']
+        };
+
+        let currentLang = 'ar';
+        let isProcessing = false;
+        let selectedService = null;
+        let currentQuestionStep = 0;
+        let userAnswers = [];
+
+        // --- UI Functions ---
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.documentElement.setAttribute('lang', currentLang);
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            document.getElementById('langBtn').innerHTML = currentLang === 'ar' ? '<i class="ri-global-line"></i> EN' : '<i class="ri-global-line"></i> عربي';
+
+            // Note: In a real app we would translate content here.
+            addSystemMessage(currentLang === 'ar' ? 'تم تغيير اللغة إلى العربية' : 'Language switched to English (Interface only)');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Add message to chat
+        function addMessage(content, type = 'ai', isHtml = false) {
+            const container = document.getElementById('messagesContainer');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `msg ${type}`;
+
+            // Icon
+            const icon = type === 'user' ? '<i class="ri-user-6-fill"></i>' : '<i class="ri-robot-2-line"></i>';
+
+            let innerContent = isHtml ? content : `<p>${content}</p>`;
+
+            msgDiv.innerHTML = `
+                <div class="msg-avatar">${icon}</div>
+                <div class="msg-content">${innerContent}</div>
+            `;
+
+            container.appendChild(msgDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Helper for system notifications
+        function addSystemMessage(text) {
+            addMessage(`<div style="font-size: 0.85rem; color: var(--text-secondary);"><i class="ri-information-line"></i> ${text}</div>`, 'ai', true);
+        }
+
+        function addTypingIndicator() {
+            const container = document.getElementById('messagesContainer');
+            const id = 'typing-' + Date.now();
+            const div = document.createElement('div');
+            div.className = 'msg ai';
+            div.id = id;
+            div.innerHTML = `
+                <div class="msg-avatar"><i class="ri-robot-2-line"></i></div>
+                <div class="msg-content" style="padding: 0.8rem 1rem;">
+                    <div class="typing-dots">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+            return id;
+        }
+
+        function removeTypingIndicator(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        // --- Logic ---
+
+        function selectService(serviceName) {
+            if (isProcessing) return;
+            if (window.innerWidth < 900) toggleSidebar(); // close sidebar on mobile
+
+            selectedService = serviceName;
+            addMessage(serviceName, 'user');
+            processServiceStart(serviceName);
+        }
+
+        function processServiceStart(service) {
+            isProcessing = true;
+            const typingId = addTypingIndicator();
+
+            setTimeout(() => {
+                removeTypingIndicator(typingId);
+                const info = absherServices[service];
+
+                if (!info) {
+                    addMessage('عذراً، هذه الخدمة غير متوفرة حالياً.', 'ai');
+                    isProcessing = false;
+                    return;
+                }
+
+                // Service Card Info
+                let html = `
+                    <div style="font-weight: 700; margin-bottom: 0.5rem; color: var(--primary); font-size: 1.1rem;">
+                        ${service}
+                    </div>
+                    <div class="tag-list" style="margin-bottom: 1rem;">
+                        <span class="tag"><i class="ri-money-dollar-circle-line"></i> ${info.fee}</span>
+                        <span class="tag"><i class="ri-time-line"></i> ${info.days}</span>
+                    </div>
+                    <div class="info-card">
+                        <div style="margin-bottom: 0.5rem; font-weight: 600;">📋 المتطلبات:</div>
+                        ${info.requirements.map(req => `<div style="display:flex; gap:0.5rem; align-items:center; margin-bottom:0.25rem;"><i class="ri-checkbox-circle-line" style="color:var(--success)"></i> ${req}</div>`).join('')}
+                    </div>
+                `;
+
+                addMessage(html, 'ai', true);
+
+                // Start Questionnaire
+                userAnswers = [];
+                currentQuestionStep = 0;
+
+                if (info.questions && info.questions.length > 0) {
+                    setTimeout(() => askNextQuestion(service), 600);
+                } else {
+                    finishService(service);
+                }
+            }, 800);
+        }
+
+        function askNextQuestion(service) {
+            const info = absherServices[service];
+            if (currentQuestionStep >= info.questions.length) {
+                finishService(service);
+                return;
+            }
+
+            let q = info.questions[currentQuestionStep];
+            let options = ['نعم', 'لا', 'غير متأكد']; // Default
+
+            // Check if question is object with specific options or type
+            if (typeof q === 'object') {
+                if (q.type === 'date') {
+                    // Render Calendar
+                    const html = `
+                       <div style="margin-bottom: 0.5rem;">${q.text}</div>
+                       ${renderCalendar(service)}
+                   `;
+                    addMessage(html, 'ai', true);
+                    return;
+                }
+                options = q.options;
+                q = q.text;
+            }
+
+            const html = `
+                <div style="margin-bottom: 0.5rem;">${q}</div>
+                <div class="quick-actions">
+                    ${options.map(opt => `<button class="action-btn" onclick="handleQuickReply('${opt}', '${service}')">${opt}</button>`).join('')}
+                </div>
+            `;
+            addMessage(html, 'ai', true);
+        }
+
+        function renderCalendar(service) {
+            const today = new Date();
+            const currentMonth = today.toLocaleString('ar-SA', { month: 'long' });
+            const currentYear = today.getFullYear();
+            const daysInMonth = new Date(currentYear, today.getMonth() + 1, 0).getDate();
+            const firstDay = new Date(currentYear, today.getMonth(), 1).getDay(); // 0 is Sunday
+
+            let daysHtml = '';
+
+            // Empty slots for start of month
+            for (let i = 0; i < firstDay; i++) {
+                daysHtml += '<div class="cal-date empty"></div>';
+            }
+
+            // Days
+            for (let i = 1; i <= daysInMonth; i++) {
+                daysHtml += `<div class="cal-date" onclick="selectDate(this, ${i}, '${service}')">${i}</div>`;
+            }
+
+            return `
+                <div class="calendar-card">
+                    <div class="cal-header">
+                        <i class="ri-arrow-right-s-line" style="cursor:pointer"></i>
+                        <span>${currentMonth} ${currentYear}</span>
+                        <i class="ri-arrow-left-s-line" style="cursor:pointer"></i>
+                    </div>
+                    <div class="cal-grid">
+                        <div class="cal-day-name">أحد</div><div class="cal-day-name">إثنين</div>
+                        <div class="cal-day-name">ثلاثاء</div><div class="cal-day-name">أربعاء</div>
+                        <div class="cal-day-name">خميس</div><div class="cal-day-name">جمعة</div>
+                        <div class="cal-day-name">سبت</div>
+                        ${daysHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function selectDate(el, day, service) {
+            // Remove siblings selected
+            const all = el.parentElement.querySelectorAll('.cal-date');
+            all.forEach(d => d.classList.remove('selected'));
+            el.classList.add('selected');
+
+            // Auto submit after slight delay
+            setTimeout(() => {
+                const dateStr = `2025/08/${day}`; // Mock Date
+                handleQuickReply(dateStr, service);
+            }, 400);
+        }
+
+        function handleQuickReply(answer, service) {
+            addMessage(answer, 'user');
+            userAnswers.push(answer);
+            currentQuestionStep++;
+            setTimeout(() => askNextQuestion(service), 600);
+        }
+
+        function finishService(service) {
+            const typingId = addTypingIndicator();
+            setTimeout(() => {
+                removeTypingIndicator(typingId);
+                const refNo = 'REQ-' + Math.floor(Math.random() * 1000000);
+
+                const html = `
+                    <div style="text-align: center; padding: 1rem;">
+                        <div style="width: 50px; height: 50px; background: var(--success); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 1rem auto; box-shadow: var(--shadow-md);">
+                            <i class="ri-check-line"></i>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem;">تم استلام الطلب بنجاح</h3>
+                        <div style="background: var(--bg-input); padding: 0.5rem; border-radius: 8px; font-family: monospace; font-size: 1.2rem; margin: 0.5rem 0; letter-spacing: 2px;">${refNo}</div>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary);">سيتم إشعارك برسالة نصية عند اكتمال الإجراء.</p>
+                    </div>
+                `;
+                addMessage(html, 'ai', true);
+                isProcessing = false;
+                selectedService = null;
+            }, 1500);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('userInput');
+            const text = input.value.trim();
+            if (!text || isProcessing) return;
+
+            addMessage(text, 'user');
+            input.value = '';
+
+            // NLP Simulation
+            const foundService = Object.keys(keywords).find(k =>
+                keywords[k].some(kw => text.includes(kw))
+            );
+
+            if (foundService) {
+                processServiceStart(foundService);
+            } else {
+                setTimeout(() => {
+                    addMessage('لم أتمكن من معرفة الخدمة المطلوبة بدقة. هل يمكنك الاختيار من القائمة الجانبية؟', 'ai');
+                }, 600);
+            }
+        }
+
+        // Init
+        window.addEventListener('load', () => {
+            const welcomeHtml = `
+                <div style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">مرحباً بك في مساعد أبشر الذكي 👋</div>
+                <p>أنا هنا لمساعدتك في إنجاز خدماتك الحكومية بسرعة وسهولة. يمكنك اختيار خدمة من القائمة أو أخباري بما تحتاج إليه.</p>
+            `;
+            addMessage(welcomeHtml, 'ai', true);
+        });
+
+        // Enter key support
+        document.getElementById('userInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+    </script>
+</body>
+
+</html>
