@@ -1090,7 +1090,7 @@
             addMessage(text, 'user');
             input.value = '';
 
-            // NLP Simulation
+            // NLP Simulation (Check for services first)
             const foundService = Object.keys(keywords).find(k =>
                 keywords[k].some(kw => text.includes(kw))
             );
@@ -1098,9 +1098,37 @@
             if (foundService) {
                 processServiceStart(foundService);
             } else {
-                setTimeout(() => {
-                    addMessage('لم أتمكن من معرفة الخدمة المطلوبة بدقة. هل يمكنك الاختيار من القائمة الجانبية؟', 'ai');
-                }, 600);
+                // Determine if we are in static mode (file://) or server mode (http://)
+                if (window.location.protocol === 'file:') {
+                    setTimeout(() => {
+                        addMessage('⚠️ <b>تنبيه:</b> أنت تستخدم الاصدار التجريبي (ثابت). للردود الذكية، يرجى تشغيل الخادم (Node.js).', 'ai', true);
+                    }, 600);
+                } else {
+                    callPerplexityApi(text);
+                }
+            }
+        }
+
+        async function callPerplexityApi(question) {
+            const typingId = addTypingIndicator();
+
+            try {
+                const response = await fetch('/api/ask', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question })
+                });
+
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                const data = await response.json();
+                removeTypingIndicator(typingId);
+                addMessage(data.answer, 'ai');
+
+            } catch (error) {
+                console.error('Error:', error);
+                removeTypingIndicator(typingId);
+                addMessage('عذراً، حدث خطأ في الاتصال بالمساعد الذكي.', 'ai');
             }
         }
 
